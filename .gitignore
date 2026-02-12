@@ -1,0 +1,38 @@
+# Python
+__pycache__
+*.pyc
+*.pyd
+*.pyo
+*.egg-info
+.python-version
+.pytest_cache
+
+# Virtual Environment
+.venv
+venv
+env
+ENV
+
+# IDE-specific files
+.idea/  # For PyCharm/IntelliJ
+.vscode/ # For VS Code (optional, if you don't want to share workspace settings)
+
+# Environment variables and secrets
+.env
+secrets.toml
+*.key
+*.pem
+
+# Database files
+*.db
+test_db.db
+
+# Build artifacts
+dist/
+build/
+htmlcov/
+site/
+
+# OS/System files
+.DS_Store # macOS
+Thumbs.db # Windows
