@@ -1,11 +1,11 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
+
+from fastapi import HTTPException
+from sqlalchemy import select, func
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.lots.models import Lot, LotStatus, Bid
 from src.lots.schemas import LotCreate
-from sqlalchemy import select, func
-from sqlalchemy.ext.asyncio import AsyncSession
-from fastapi import HTTPException
-
 from src.websocket.manager import manager
 
 
@@ -14,8 +14,7 @@ async def create_lot(db: AsyncSession, lot_data: LotCreate):
         title=lot_data.title,
         start_price=lot_data.start_price,
         status=LotStatus.running.value,
-        end_time=datetime.now() + timedelta(minutes=5)
-
+        end_time=datetime.now(timezone.utc) + timedelta(minutes=5),
     )
 
     db.add(lot)
@@ -31,10 +30,6 @@ async def get_running_lots(db: AsyncSession):
     )
     return result.scalars().all()
 
-from datetime import datetime, timedelta
-from sqlalchemy import select, func
-from fastapi import HTTPException
-
 
 async def create_bid(db: AsyncSession, lot_id: int, amount: float, bidder: str):
     result = await db.execute(
@@ -48,7 +43,7 @@ async def create_bid(db: AsyncSession, lot_id: int, amount: float, bidder: str):
     if lot.status != LotStatus.running:
         raise HTTPException(status_code=400, detail="Lot is not running")
 
-    if lot.end_time <= datetime.utcnow():
+    if lot.end_time <= datetime.now(timezone.utc):
         raise HTTPException(status_code=400, detail="Auction ended")
 
     result = await db.execute(
@@ -72,7 +67,7 @@ async def create_bid(db: AsyncSession, lot_id: int, amount: float, bidder: str):
 
     db.add(bid)
 
-    remaining_time = (lot.end_time - datetime.utcnow()).total_seconds()
+    remaining_time = (lot.end_time - datetime.now(timezone.utc)).total_seconds()
 
     extended = False
 
@@ -89,7 +84,8 @@ async def create_bid(db: AsyncSession, lot_id: int, amount: float, bidder: str):
             "type": "bid_placed",
             "lot_id": lot_id,
             "bidder": bidder,
-            "amount": amount
+            "amount": amount,
+            "current_price": float(amount),
         }
     )
 

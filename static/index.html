@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Auction</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1>Auction</h1>
+    </header>
+
+    <main class="main">
+      <section class="section card">
+        <h2>Create lot</h2>
+        <form id="form-create-lot" class="form">
+          <label>
+            Title
+            <input type="text" name="title" required placeholder="Годинник" />
+          </label>
+          <label>
+            Start price
+            <input type="number" name="start_price" step="0.01" min="0" required placeholder="10" />
+          </label>
+          <button type="submit">Create lot</button>
+        </form>
+        <p id="create-message" class="message" aria-live="polite"></p>
+      </section>
+
+      <section class="section">
+        <div class="section-header">
+          <h2>Active lots</h2>
+          <button type="button" id="btn-refresh-lots" class="btn-secondary">Refresh</button>
+        </div>
+        <div id="lots-list" class="lots-list"></div>
+        <p id="lots-message" class="message" aria-live="polite"></p>
+      </section>
+
+      <section class="section card">
+        <div class="live-feed-header">
+          <h3>Live updates (all lots)</h3>
+          <span id="ws-status" class="ws-status">Connecting…</span>
+        </div>
+        <ul id="ws-events" class="event-list"></ul>
+      </section>
+    </main>
+  </div>
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

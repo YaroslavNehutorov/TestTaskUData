@@ -45,7 +45,7 @@ class Lot(Base):
         cascade="all, delete-orphan",
     )
 
-    end_time: Mapped[datetime] = mapped_column(DateTime)
+    end_time: Mapped[datetime] = mapped_column(DateTime(timezone=True))
 
 
 class Bid(Base):
@@ -53,7 +53,7 @@ class Bid(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
 
-    bidder: Mapped[str] = mapped_column()
+    bidder: Mapped[str] = mapped_column(String(255), nullable=False)
 
     lot_id: Mapped[int] = mapped_column(
         ForeignKey("lots.id", ondelete="CASCADE"),

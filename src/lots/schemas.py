@@ -12,6 +12,7 @@ class LotResponse(BaseModel):
     title: str
     start_price: Decimal = Field(100.00)
     status: str
+    current_price: float | None = None
 
     class Config:
         from_attributes = True
