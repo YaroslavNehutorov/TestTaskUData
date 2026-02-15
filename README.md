@@ -14,7 +14,7 @@ A real-time auction backend built with **FastAPI**, **WebSocket**, and **Postgre
 
    ```bash
    git clone <repository-url>
-   cd test_task
+   cd TestTaskUData
    ```
 
 2. **Create environment file** from the example:
