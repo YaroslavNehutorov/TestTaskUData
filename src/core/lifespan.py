@@ -9,7 +9,7 @@ from src.core.models import Base
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    asyncio.create_task(auction_watcher())
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
+    asyncio.create_task(auction_watcher())
     yield
