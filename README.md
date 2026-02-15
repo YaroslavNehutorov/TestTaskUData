@@ -36,7 +36,6 @@ A real-time auction backend built with **FastAPI**, **WebSocket**, and **Postgre
    **Useful URLs:**
    - **Web UI**: http://localhost:8000
    - **API docs**: http://localhost:8000/docs
-   - **Health check**: http://localhost:8000/api/status
 
 4. **Stop**:
 
